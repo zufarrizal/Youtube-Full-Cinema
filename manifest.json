@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Full Cinema",
+  "description": "Membuat mode bioskop YouTube memenuhi window browser dan menyembunyikan chat saat live stream.",
+  "version": "1.0.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ],
+      "css": [
+        "src/content.css"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}
