@@ -98,9 +98,3 @@ html.yfc-full-cinema ytd-watch-flexy[theater] .ytp-tooltip {
   z-index: 2147483647 !important;
 }
 
-html.yfc-full-cinema.yfc-live ytd-live-chat-frame,
-html.yfc-full-cinema.yfc-live #chat,
-html.yfc-full-cinema.yfc-live #chat-container,
-html.yfc-full-cinema.yfc-live ytd-watch-flexy[is-live-chat-collapsed="false"] #chat {
-  display: none !important;
-}

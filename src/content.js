@@ -37,7 +37,7 @@
     }
 
     const preferredButton = chatRoot.querySelector(
-      "#show-hide-button button, #show-hide-button [role='button'], button[aria-label*='Hide chat' i], button[aria-label*='Sembunyikan chat' i], [aria-label*='Hide chat' i], [aria-label*='Sembunyikan chat' i]"
+      "#show-hide-button button, #show-hide-button [role='button'], button[aria-label*='Hide chat' i], [aria-label*='Hide chat' i]"
     );
 
     if (preferredButton instanceof HTMLElement) {

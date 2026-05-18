@@ -72,7 +72,7 @@ The extension uses a Manifest V3 content script:
 
 - `manifest.json` defines the Chrome extension, content script matches, and `document_start` injection timing.
 - `src/content.js` handles YouTube page detection, theater-mode activation, live-stream detection, live chat collapse, and manual view toggles.
-- `src/content.css` applies the Full Cinema layout and live chat fallback hiding rules.
+- `src/content.css` applies the Full Cinema layout.
 
 ## Notes
 
