@@ -4,6 +4,7 @@
   let updateFrame = 0;
   let lastPageKey = "";
   let autoTheaterAttempted = false;
+  let liveChatCollapseAttempted = false;
   let manualDefaultMode = false;
 
   const isWatchPage = () => {
@@ -12,6 +13,54 @@
   };
 
   const getPageKey = () => `${window.location.pathname}${window.location.search}`;
+
+  const isLiveChatCollapsed = () => {
+    const watchFlexy = document.querySelector("ytd-watch-flexy");
+    const chatFrame = document.querySelector("ytd-live-chat-frame");
+
+    return Boolean(
+      watchFlexy?.getAttribute("is-live-chat-collapsed") === "true" ||
+        watchFlexy?.isLiveChatCollapsed ||
+        chatFrame?.hasAttribute("collapsed") ||
+        chatFrame?.collapsed
+    );
+  };
+
+  const findLiveChatCollapseButton = () => {
+    const chatRoot =
+      document.querySelector("#chat") ||
+      document.querySelector("#chat-container") ||
+      document.querySelector("ytd-live-chat-frame");
+
+    if (!chatRoot) {
+      return null;
+    }
+
+    const preferredButton = chatRoot.querySelector(
+      "#show-hide-button button, #show-hide-button [role='button'], button[aria-label*='Hide chat' i], button[aria-label*='Sembunyikan chat' i], [aria-label*='Hide chat' i], [aria-label*='Sembunyikan chat' i]"
+    );
+
+    if (preferredButton instanceof HTMLElement) {
+      return preferredButton;
+    }
+
+    const touchFeedback = chatRoot.querySelector(".ytSpecTouchFeedbackShapeFill");
+    return touchFeedback?.closest("button, [role='button'], yt-button-shape, ytd-button-renderer, tp-yt-paper-button") ?? null;
+  };
+
+  const collapseLiveChat = () => {
+    if (liveChatCollapseAttempted || isLiveChatCollapsed()) {
+      return;
+    }
+
+    const collapseButton = findLiveChatCollapseButton();
+    if (!(collapseButton instanceof HTMLElement)) {
+      return;
+    }
+
+    liveChatCollapseAttempted = true;
+    collapseButton.click();
+  };
 
   const isLiveStream = () => {
     if (window.location.pathname.startsWith("/live/")) {
@@ -55,6 +104,7 @@
     if (pageKey !== lastPageKey) {
       lastPageKey = pageKey;
       autoTheaterAttempted = false;
+      liveChatCollapseAttempted = false;
       manualDefaultMode = false;
     }
 
@@ -79,6 +129,10 @@
 
     const live = isLiveStream();
     document.documentElement.classList.toggle(LIVE_CLASS, live);
+
+    if (live) {
+      collapseLiveChat();
+    }
   };
 
   const scheduleUpdate = () => {
