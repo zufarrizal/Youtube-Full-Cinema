@@ -1,6 +1,6 @@
 # YouTube Full Cinema
 
-YouTube Full Cinema is a lightweight Chrome extension that turns YouTube theater mode into a browser-window-sized cinema view. It keeps YouTube's own controls available, preserves page scrolling, and hides live chat only when the current page is detected as a live stream.
+YouTube Full Cinema is a lightweight Chrome extension that turns YouTube theater mode into a browser-window-sized cinema view. It keeps YouTube's own controls available, preserves page scrolling, and automatically collapses live chat when the current page is detected as a live stream.
 
 ## Features
 
@@ -10,7 +10,7 @@ YouTube Full Cinema is a lightweight Chrome extension that turns YouTube theater
 - Lets the normal YouTube layout return when you switch back to default view.
 - Keeps the watch page scrollable so metadata, comments, and lower-page content remain accessible.
 - Hides the YouTube masthead and navigation while Full Cinema is active.
-- Hides live chat on live streams.
+- Automatically collapses live chat on live streams.
 - Runs early with `document_start` to reduce visible layout delay.
 
 ## Supported Pages
@@ -43,7 +43,7 @@ Use YouTube's built-in theater/default button in the video controls to switch vi
 - Default view disables the Full Cinema layout and returns YouTube to its normal page layout.
 - Opening another video resets the automatic theater-mode attempt.
 
-For live streams, the live chat area is hidden while Full Cinema is active.
+For live streams, the extension clicks YouTube's own live chat collapse control once, so the chat panel closes using YouTube's native behavior.
 
 ## How It Works
 
@@ -52,7 +52,8 @@ The extension uses a Manifest V3 content script:
 - `src/content.js` watches YouTube navigation events, page changes, resize events, and theater button clicks.
 - `src/content.js` adds or removes CSS classes on the document root:
   - `yfc-full-cinema` enables the cinema layout.
-  - `yfc-live` hides live chat when the page is detected as live.
+  - `yfc-live` marks live stream pages while Full Cinema is active.
+- `src/content.js` clicks YouTube's live chat collapse control when a live stream is detected.
 - `src/content.css` adjusts only the active theater-mode player area so the video fills `100vw` by `100vh`.
 - The script avoids repeatedly forcing theater mode after the user manually returns to default view.
 
@@ -70,8 +71,8 @@ The extension uses a Manifest V3 content script:
 ## Files
 
 - `manifest.json` defines the Chrome extension, content script matches, and `document_start` injection timing.
-- `src/content.js` handles YouTube page detection, theater-mode activation, live-stream detection, and manual view toggles.
-- `src/content.css` applies the Full Cinema layout and live chat hiding rules.
+- `src/content.js` handles YouTube page detection, theater-mode activation, live-stream detection, live chat collapse, and manual view toggles.
+- `src/content.css` applies the Full Cinema layout and live chat fallback hiding rules.
 
 ## Notes
 
